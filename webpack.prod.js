@@ -6,6 +6,22 @@ const TerserPlugin = require("terser-webpack-plugin");
 module.exports = merge(common, {
   mode: "production",
   optimization: {
-    minimize: false,
-  },
+    minimize: true,
+    minimizer: [
+      new CssMinimizerPlugin({
+        // Настройки для CssMinimizer
+        minify: [
+          // Можно добавить дополнительные опции минификации
+          ["cssnano", { preset: "default" }]
+        ]
+      }),
+      new TerserPlugin({
+        // Настройки для минификации JavaScript
+        terserOptions: {
+          compress: true,
+          mangle: true
+        }
+      })
+    ]
+  }
 });
