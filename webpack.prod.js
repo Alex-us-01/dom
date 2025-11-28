@@ -9,14 +9,23 @@ module.exports = merge(common, {
     minimize: true,
     minimizer: [
       new CssMinimizerPlugin({
-        // Настройки для CssMinimizer
+        // Исправленный способ настройки
+        minify: (css, { filename }) => {
+          return Promise.resolve({
+            code: css,
+            warnings: []
+          });
+        },
+        // Или можно использовать cssnano напрямую
+        /*
         minify: [
-          // Можно добавить дополнительные опции минификации
-          ["cssnano", { preset: "default" }]
+          [require("cssnano"), {
+            preset: "default"
+          }]
         ]
+        */
       }),
       new TerserPlugin({
-        // Настройки для минификации JavaScript
         terserOptions: {
           compress: true,
           mangle: true
